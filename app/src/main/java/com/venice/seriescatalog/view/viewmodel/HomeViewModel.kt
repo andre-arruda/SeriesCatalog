@@ -27,8 +27,9 @@ class HomeViewModel(
     private val dispatcher: CoroutineContext = Dispatchers.IO + SupervisorJob()
 ) : ViewModel() {
 
-    var allShowsPage = 1
+    var allShowsPage = 0
     var allShowsResponse: MutableList<Show> = mutableListOf()
+    var totalResults = 0
 
     private val searchMutableCommand = MutableLiveData<FragmentSearchCommand>()
     val searchCommandLiveData: LiveData<FragmentSearchCommand> = searchMutableCommand
@@ -42,12 +43,15 @@ class HomeViewModel(
                 allShowsPage++
                 if (allShowsResponse.isEmpty()) {
                     allShowsResponse.addAll(response.value)
+                    totalResults = allShowsResponse.size
+                    FragmentSeriesCommand.OnLoadAllShowsSuccess(allShowsResponse.toList()).run()
                 } else {
                     val oldShows = allShowsResponse
                     val newShows = response.value
                     oldShows.addAll(newShows)
+                    totalResults = oldShows.size
+                    FragmentSeriesCommand.OnLoadAllShowsSuccess(oldShows.toList()).run()
                 }
-                //pass allShowResponse to view
             }
             else -> Log.d("RESPONSE ERROR: ", "No results available")
         }
