@@ -1,6 +1,5 @@
 package com.venice.seriescatalog.view.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +11,6 @@ import com.venice.seriescatalog.domain.usecase.GetShowsByFilterUseCase
 import com.venice.seriescatalog.model.Show
 import com.venice.seriescatalog.view.fragment.command.FragmentSearchCommand
 import com.venice.seriescatalog.view.fragment.command.FragmentSeriesCommand
-import com.venice.seriescatalog.view.fragment.command.FragmentShowCommand
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -30,6 +28,7 @@ class HomeViewModel(
     var allShowsPage = 0
     var allShowsResponse: MutableList<Show> = mutableListOf()
     var totalResults = 0
+    var lastPosition = 0
 
     private val searchMutableCommand = MutableLiveData<FragmentSearchCommand>()
     val searchCommandLiveData: LiveData<FragmentSearchCommand> = searchMutableCommand
@@ -43,17 +42,20 @@ class HomeViewModel(
                 allShowsPage++
                 if (allShowsResponse.isEmpty()) {
                     allShowsResponse.addAll(response.value)
+                    lastPosition = allShowsResponse.size
                     totalResults = allShowsResponse.size
                     FragmentSeriesCommand.OnLoadAllShowsSuccess(allShowsResponse.toList()).run()
                 } else {
                     val oldShows = allShowsResponse
                     val newShows = response.value
+                    lastPosition = oldShows.size
                     oldShows.addAll(newShows)
                     totalResults = oldShows.size
                     FragmentSeriesCommand.OnLoadAllShowsSuccess(oldShows.toList()).run()
                 }
             }
-            else -> Log.d("RESPONSE ERROR: ", "No results available")
+            is SafeResponse.NetworkError -> FragmentSeriesCommand.OnLoadError(response.errorMessage).run()
+            is SafeResponse.GenericError -> FragmentSeriesCommand.OnLoadError(response.errorMessage).run()
         }
     }
 
@@ -62,7 +64,8 @@ class HomeViewModel(
             is SafeResponse.Success -> {
                 FragmentSearchCommand.OnLoadSeriesByFilterSuccess(response.value).run()
             }
-            else -> Log.d("RESPONSE ERROR: ", "No results available")
+            is SafeResponse.NetworkError -> FragmentSearchCommand.OnLoadError(response.errorMessage).run()
+            is SafeResponse.GenericError -> FragmentSearchCommand.OnLoadError(response.errorMessage).run()
         }
     }
 

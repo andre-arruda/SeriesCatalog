@@ -49,8 +49,11 @@ class EpisodeFragment : Fragment(R.layout.fragment_episode) {
         binding.textViewEpisodeName.text = episode.name
         binding.textViewEpisodeNumber.text = getString(R.string.text_episode) + " " + episode.number
         binding.textViewEpisodeSeason.text = getString(R.string.text_season) + " " + episode.season
-        episode.summary?.let {
-            binding.textViewEpisodeSummary.text = HtmlCompat.fromHtml(it, 0)
+
+        binding.textViewEpisodeSummary.text = if(!episode.summary.isNullOrBlank()) {
+            HtmlCompat.fromHtml(episode.summary, 0)
+        } else {
+            getString(R.string.no_information)
         }
         binding.textViewStaticEpisodeSummary.show(true)
         binding.imageViewEpisodeImage.show(true)

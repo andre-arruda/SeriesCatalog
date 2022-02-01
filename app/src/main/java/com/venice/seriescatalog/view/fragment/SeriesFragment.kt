@@ -62,8 +62,10 @@ class SeriesFragment : Fragment(R.layout.fragment_series) {
         binding.recyclerViewSeries.apply {
             this.adapter = adapter
             layoutManager = GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
+            if(homeViewModel.allShowsPage>1){
+                scrollToPosition(homeViewModel.lastPosition-1)
+            }
             addOnScrollListener(this@SeriesFragment.scrollListener)
-            preserveFocusAfterLayout = true
         }
 
     }

@@ -1,6 +1,5 @@
 package com.venice.seriescatalog.view.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,7 +27,8 @@ class EpisodeViewModel(
     fun getEpisodeInformation(id: Int) = viewModelScope.launch(dispatcher) {
         when(val response = safeRequest { getEpisodeUseCase.invoke(id) }) {
             is SafeResponse.Success -> FragmentEpisodeCommand.OnLoadEpisodeSuccess(response.value).run()
-            else -> Log.d("RESPONSE ERROR: ", "No results available")
+            is SafeResponse.NetworkError -> FragmentEpisodeCommand.OnLoadEpisodeError(response.errorMessage).run()
+            is SafeResponse.GenericError -> FragmentEpisodeCommand.OnLoadEpisodeError(response.errorMessage).run()
         }
     }
 

@@ -1,6 +1,5 @@
 package com.venice.seriescatalog.view.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +8,6 @@ import com.venice.seriescatalog.domain.usecase.GetShowEpisodesUseCase
 import com.venice.seriescatalog.domain.usecase.GetShowUseCase
 import com.venice.seriescatalog.data.remote.SafeResponse
 import com.venice.seriescatalog.data.remote.safeRequest
-import com.venice.seriescatalog.view.fragment.command.FragmentEpisodeCommand
 import com.venice.seriescatalog.view.fragment.command.FragmentShowCommand
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -31,14 +29,14 @@ class ShowViewModel(
     fun getShowInformation(id: Int) = viewModelScope.launch(dispatcher) {
         when(val response = safeRequest { getShowUseCase.invoke(id) }) {
             is SafeResponse.Success -> FragmentShowCommand.OnLoadShowInformationSuccess(response.value).run()
-            else -> Log.d("RESPONSE ERROR: ", "No results available")
+            is SafeResponse.NetworkError -> FragmentShowCommand.OnLoadError(response.errorMessage).run()
+            is SafeResponse.GenericError -> FragmentShowCommand.OnLoadError(response.errorMessage).run()
         }
     }
 
     fun getShowEpisodes(id: Int) = viewModelScope.launch(dispatcher) {
         when(val response = safeRequest { getShowEpisodesUseCase.invoke(id) }) {
             is SafeResponse.Success -> FragmentShowCommand.OnLoadShowEpisodesSuccess(response.value).run()
-            else -> Log.d("RESPONSE ERROR: ", "No results available")
         }
     }
 

@@ -1,13 +1,11 @@
 package com.venice.seriescatalog.view.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.text.HtmlCompat
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
-import com.venice.seriescatalog.view.activity.HomeActivity
 import com.venice.seriescatalog.R
 import com.venice.seriescatalog.databinding.FragmentShowBinding
 import com.venice.seriescatalog.model.Episode
@@ -16,7 +14,9 @@ import com.venice.seriescatalog.view.adapter.ViewPagerAdapter
 import com.venice.seriescatalog.view.extension.show
 import com.venice.seriescatalog.view.fragment.command.FragmentShowCommand
 import com.venice.seriescatalog.view.viewmodel.ShowViewModel
-import kotlinx.android.synthetic.main.fragment_show.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ShowFragment : Fragment(R.layout.fragment_show) {
@@ -30,8 +30,15 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         binding = FragmentShowBinding.bind(view)
         //do the fetch
         setupObservables()
-        showViewModel.getShowInformation(showId)
-        showViewModel.getShowEpisodes(showId)
+
+        runBlocking {
+            withContext(Dispatchers.Default) {
+                showViewModel.getShowInformation(showId)
+                showViewModel.getShowEpisodes(showId)
+            }
+        }
+
+
     }
 
     private fun setupObservables() {
@@ -71,26 +78,38 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         }
         binding.textViewShowName.text = show.name
         var genres = ""
-        for (i in 0 until show.genres.size) {
-            genres += if(i == show.genres.size-1) {
-                show.genres[i]
-            } else {
-                show.genres[i] + ", "
+        binding.textViewShowGenres.text = if (!show.genres.isNullOrEmpty()) {
+            for (i in 0 until show.genres.size) {
+                genres += if(i == show.genres.size-1) {
+                    show.genres[i]
+                } else {
+                    show.genres[i] + ", "
+                }
             }
+            genres
+        } else {
+            getString(R.string.no_information)
         }
-        binding.textViewShowGenres.text = genres
         var daysOfStreaming = ""
-        for (i in 0 until show.schedule.days.size) {
-            daysOfStreaming += if(i == show.schedule.days.size-1) {
-                show.schedule.days[i]
-            } else {
-                show.schedule.days[i] + ", "
+        binding.textViewDays.text = if (!show.schedule.days.isNullOrEmpty()) {
+            for (i in 0 until show.schedule.days.size) {
+                daysOfStreaming += if (i == show.schedule.days.size - 1) {
+                    show.schedule.days[i]
+                } else {
+                    show.schedule.days[i] + ", "
+                }
             }
+            daysOfStreaming
+        } else {
+            getString(R.string.no_information)
         }
-        binding.textViewDays.text = daysOfStreaming
-        binding.textViewShowTime.text = "Show time: " + show.schedule.time
-        show.summary?.let {
-            binding.textViewShowSummary.text = HtmlCompat.fromHtml(it, 0)
+        if(!show.schedule.time.isNullOrBlank()) {
+            binding.textViewShowTime.text = getString(R.string.show_time) + show.schedule.time
+        }
+        binding.textViewShowSummary.text = if(!show.summary.isNullOrBlank()) {
+            HtmlCompat.fromHtml(show.summary, 0)
+        } else {
+            getString(R.string.no_information)
         }
         binding.textViewStaticShowSummary.show(true)
         binding.textViewStaticStreamingOn.show(true)

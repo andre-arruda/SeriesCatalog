@@ -22,15 +22,15 @@ suspend fun <T> safeRequest(request: suspend () -> T): SafeResponse<T> {
         Log.e("ERROR", throwable.message!!)
         return when (throwable) {
             is IOException -> {
-                val errorMessage = "Ops. Tivemos um problema aqui. Por favor, tente novamente."
+                val errorMessage = "Connectivity problem. Please, check your connection!"
                 SafeResponse.NetworkError(errorMessage)
             }
             is HttpException -> {
-                val errorMessage = "Ops. Tivemos um problema aqui. Por favor, tente novamente."
-                SafeResponse.GenericError(throwable.code(), throwable.response(), errorMessage)
+                val errorMessage = "Ops! Something went wrong"
+                SafeResponse.GenericError(throwable.response()?.code(), throwable.response(), errorMessage)
             }
             else -> {
-                val errorMessage = "Ops. Tivemos um problema aqui. Por favor, tente novamente."
+                val errorMessage = "Ops! Something went wrong"
                 SafeResponse.GenericError(null, null, errorMessage)
             }
         }
