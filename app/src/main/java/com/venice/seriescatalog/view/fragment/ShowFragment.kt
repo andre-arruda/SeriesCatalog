@@ -26,24 +26,26 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var showId = requireActivity().intent.extras?.get("idShow").toString().toInt()
         binding = FragmentShowBinding.bind(view)
         //do the fetch
         setupObservables()
-        showViewModel.getShowInformation(335)
-        showViewModel.getShowEpisodes(335)
+        showViewModel.getShowInformation(showId)
+        showViewModel.getShowEpisodes(showId)
     }
 
     private fun setupObservables() {
-        showViewModel.commandLiveData.observe(viewLifecycleOwner, Observer {
+        showViewModel.commandLiveData.observe(viewLifecycleOwner, {
             when(it) {
                 is FragmentShowCommand.OnLoadShowInformationSuccess -> {
                     populateView(it.show)
                 }
                 is FragmentShowCommand.OnLoadShowEpisodesSuccess -> {
                     populateEpisodesList(it.listOfEpisodes)
+                    binding.progressBarShowInfo.show(false)
                 }
                 is FragmentShowCommand.OnLoadError -> {
-
+                    binding.progressBarShowInfo.show(false)
                 }
             }
         })
@@ -64,7 +66,9 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
     }
 
     private fun populateView(show: Show) {
-        Picasso.get().load(show.image.medium).into(binding.imageViewShowImage)
+        show.image?.let {
+            Picasso.get().load(it.medium).into(binding.imageViewShowImage)
+        }
         binding.textViewShowName.text = show.name
         var genres = ""
         for (i in 0 until show.genres.size) {
@@ -85,18 +89,24 @@ class ShowFragment : Fragment(R.layout.fragment_show) {
         }
         binding.textViewDays.text = daysOfStreaming
         binding.textViewShowTime.text = "Show time: " + show.schedule.time
-        binding.textViewShowSummary.text = HtmlCompat.fromHtml(show.summary, 0)
+        show.summary?.let {
+            binding.textViewShowSummary.text = HtmlCompat.fromHtml(it, 0)
+        }
         binding.textViewStaticShowSummary.show(true)
         binding.textViewStaticStreamingOn.show(true)
+        binding.imageViewShowImage.show(true)
     }
 
     private fun getListOfEpisodesBySeason(listOfEpisodes: List<Episode>) : MutableList<List<Episode>> {
 
         var listOfSeasons = mutableListOf<List<Episode>>()
 
-        for (i in 0 until listOfEpisodes[listOfEpisodes.lastIndex].season.toInt()) {
-            var season = listOfEpisodes.filterIndexed { _, episode -> episode.season.toInt() == i+1 }
-            listOfSeasons.add(season)
+        if(!listOfEpisodes.isEmpty()) {
+            for (i in 0 until listOfEpisodes[listOfEpisodes.lastIndex].season.toInt()) {
+                var season =
+                    listOfEpisodes.filterIndexed { _, episode -> episode.season.toInt() == i + 1 }
+                listOfSeasons.add(season)
+            }
         }
 
         return listOfSeasons

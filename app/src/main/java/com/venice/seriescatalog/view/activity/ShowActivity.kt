@@ -1,7 +1,10 @@
 package com.venice.seriescatalog.view.activity
 
+import androidx.appcompat.app.AppCompatActivity
+import com.venice.seriescatalog.R
+
 /*
- * Copyright (c) 2021 McDonald's. All rights reserved.
  * Created by Andre Arruda on 1/29/22.
- */class ShowActivity {
+ */
+class ShowActivity: AppCompatActivity(R.layout.activity_show) {
 }

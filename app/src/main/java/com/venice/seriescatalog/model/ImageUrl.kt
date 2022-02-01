@@ -9,6 +9,6 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class ImageUrl(
-        @Json(name = "medium") val medium: String,
-        @Json(name = "original") val original: String,
+        @Json(name = "medium") val medium: String?,
+        @Json(name = "original") val original: String?,
 ): Parcelable

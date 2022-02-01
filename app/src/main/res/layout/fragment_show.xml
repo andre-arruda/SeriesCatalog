@@ -1,161 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:descendantFocusability="blocksDescendants"
     tools:context=".view.fragment.ShowFragment">
-
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/linear_header_show"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:weightSum="2"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image_view_show_image"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:layout_weight="1"/>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/linear_header_show"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:padding="4dp"
-                android:layout_weight="1">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text_view_show_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
-                    android:textStyle="bold|italic"
-                    android:paddingBottom="@dimen/margin_large"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text_view_static_streaming_on"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_streaming_on"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_view_show_image"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
                     android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="@+id/text_view_show_name"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_show_name" />
+                    android:src="@drawable/no_image" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="4dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_view_show_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/margin_large"
+                        android:textSize="24sp"
+                        android:textStyle="bold|italic"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text_view_days"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/margin_medium"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="italic"
-                    android:visibility="visible"
-                    app:layout_constraintStart_toStartOf="@+id/text_view_static_streaming_on"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_static_streaming_on" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_view_static_streaming_on"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_streaming_on"
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="@+id/text_view_show_name"
+                        app:layout_constraintTop_toBottomOf="@+id/text_view_show_name" />
 
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text_view_show_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:visibility="visible"
-                    app:layout_constraintStart_toStartOf="@+id/text_view_days"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_days" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text_view_show_genres"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textStyle="italic"
-                    app:layout_constraintStart_toStartOf="@+id/text_view_show_time"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_show_time" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_view_days"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:textSize="14sp"
+                        android:textStyle="italic"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@+id/text_view_static_streaming_on"
+                        app:layout_constraintTop_toBottomOf="@+id/text_view_static_streaming_on" />
 
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_view_static_show_summary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_summary"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_margin="@dimen/margin_medium"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@+id/linear_header_show"
-            app:layout_constraintTop_toBottomOf="@+id/linear_header_show" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_view_show_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@+id/text_view_days"
+                        app:layout_constraintTop_toBottomOf="@+id/text_view_days" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_view_show_summary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_marginHorizontal="@dimen/margin_medium"
-            android:justificationMode="inter_word"
-            app:layout_constraintStart_toStartOf="@+id/text_view_static_show_summary"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_static_show_summary" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_view_show_genres"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textStyle="italic"
+                        app:layout_constraintStart_toStartOf="@+id/text_view_show_time"
+                        app:layout_constraintTop_toBottomOf="@+id/text_view_show_time" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/text_view_show_summary"
-            app:layout_constraintStart_toStartOf="@+id/text_view_show_summary"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_show_summary">
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <HorizontalScrollView
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_view_static_show_summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:text="@string/text_summary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/linear_header_show"
+                app:layout_constraintTop_toBottomOf="@+id/linear_header_show" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_view_show_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollIndicators="none">
+                android:layout_marginHorizontal="@dimen/margin_medium"
+                android:justificationMode="inter_word"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/text_view_static_show_summary"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_static_show_summary" />
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tab_layout_seasons"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollIndicators="none" />
-
-            </HorizontalScrollView>
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager_seasons"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="200dp"/>
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/text_view_show_summary"
+                app:layout_constraintStart_toStartOf="@+id/text_view_show_summary"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_show_summary">
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollIndicators="none">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tab_layout_seasons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollIndicators="none" />
+
+                </HorizontalScrollView>
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/view_pager_seasons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="200dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+    <ProgressBar
+        android:id="@+id/progress_bar_show_info"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

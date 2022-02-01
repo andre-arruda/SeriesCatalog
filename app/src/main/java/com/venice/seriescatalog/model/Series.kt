@@ -16,11 +16,11 @@ data class Series(
 
 @Parcelize
 data class Show(
-    @Json(name = "id") val id: Integer,
+    @Json(name = "id") val id: Int,
     @Json(name = "name") val name: String,
-    @Json(name = "image") val image: ImageUrl,
+    @Json(name = "image") val image: ImageUrl?,
     @Json(name = "genres") val genres: List<String>,
-    @Json(name = "summary") val summary: String,
+    @Json(name = "summary") val summary: String?,
     @Json(name = "schedule") val schedule: Schedule,
     @Json(name = "runtime") val runtime: Int,
     val episodes: List<Episode>?

@@ -11,9 +11,9 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Episode(
         @Json(name = "id") val id: Int,
-        @Json(name = "image") val image: ImageUrl,
+        @Json(name = "image") val image: ImageUrl?,
         @Json(name = "name") val name: String,
         @Json(name = "number") val number: String,
         @Json(name = "season") val season: String,
-        @Json(name = "summary") val summary: String,
+        @Json(name = "summary") val summary: String?,
 ): Parcelable

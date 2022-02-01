@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.HomeActivity">
+    tools:context=".view.activity.ShowActivity">
 
 
     <fragment
-        android:id="@+id/fragment"
+        android:id="@+id/fragmentShow"
         android:name="com.venice.seriescatalog.view.fragment.ShowFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margin_small"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_view_serie"
+        android:layout_width="120dp"
+        android:layout_height="150dp"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_view_serie_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O Ingrato"
+        android:textStyle="bold|italic"
+        android:textSize="16sp"
+        android:layout_gravity="center"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -14,15 +14,14 @@ import com.venice.seriescatalog.view.fragment.command.FragmentEpisodeCommand
 import com.venice.seriescatalog.view.viewmodel.EpisodeViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class EpisodeFragment(
-    private var episodeId: Int
-) : Fragment(R.layout.fragment_episode) {
+class EpisodeFragment : Fragment(R.layout.fragment_episode) {
 
     private val episodeViewModel by viewModel<EpisodeViewModel>()
     private lateinit var binding: FragmentEpisodeBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var episodeId = requireActivity().intent.extras?.get("idEpisode").toString().toInt()
         binding = FragmentEpisodeBinding.bind(view)
         setupObservables()
         //do the fetch
@@ -31,26 +30,30 @@ class EpisodeFragment(
     }
 
     private fun setupObservables() {
-        episodeViewModel.commandLiveData.observe(viewLifecycleOwner, Observer {
+        episodeViewModel.commandLiveData.observe(viewLifecycleOwner, {
             when(it) {
                 is FragmentEpisodeCommand.OnLoadEpisodeSuccess -> {
                     populateView(it.episode)
                     binding.progressBarEpisodeInfo.show(false)
                 }
                 is FragmentEpisodeCommand.OnLoadEpisodeError -> {
-                    //do nothing
+                    binding.progressBarEpisodeInfo.show(false)
                 }
             }
         })
     }
 
     private fun populateView(episode: Episode) {
-        Picasso.get().load(episode.image.original).into(binding.imageViewEpisodeImage)
+        episode.image?.let {
+            Picasso.get().load(it.original).into(binding.imageViewEpisodeImage) }
         binding.textViewEpisodeName.text = episode.name
         binding.textViewEpisodeNumber.text = getString(R.string.text_episode) + " " + episode.number
         binding.textViewEpisodeSeason.text = getString(R.string.text_season) + " " + episode.season
-        binding.textViewEpisodeSummary.text = HtmlCompat.fromHtml(episode.summary, 0)
+        episode.summary?.let {
+            binding.textViewEpisodeSummary.text = HtmlCompat.fromHtml(it, 0)
+        }
         binding.textViewStaticEpisodeSummary.show(true)
+        binding.imageViewEpisodeImage.show(true)
     }
 
 

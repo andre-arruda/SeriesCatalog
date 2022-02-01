@@ -1,5 +1,8 @@
 package com.venice.seriescatalog.view.di
 
+import com.venice.seriescatalog.view.fragment.SearchFragment
+import com.venice.seriescatalog.view.fragment.SeriesFragment
+import com.venice.seriescatalog.view.fragment.command.PeopleFragment
 import com.venice.seriescatalog.view.viewmodel.EpisodeViewModel
 import com.venice.seriescatalog.view.viewmodel.HomeViewModel
 import com.venice.seriescatalog.view.viewmodel.ShowViewModel
@@ -16,6 +19,9 @@ object ViewModule {
         viewModel { HomeViewModel(get(), get()) }
         viewModel { ShowViewModel(get(), get()) }
         viewModel { EpisodeViewModel(get()) }
+        factory { SeriesFragment() }
+        factory { SearchFragment() }
+        factory { PeopleFragment() }
     }
 
     // function to load module
